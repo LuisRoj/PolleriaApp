@@ -31,15 +31,4 @@ public class PedidoDetalle {
     @Column(name = "subtotal")
     private double subtotal;
 
-    @Override
-    public String toString() {
-        return "PedidoDetalle{" +
-                "idpedidoDetalle=" + idpedidoDetalle +
-                ", idproducto=" + idproducto +
-                ", cantidad=" + cantidad +
-                ", precio=" + precio +
-                ", subtotal=" + subtotal +
-                '}';
-    }
-
 }

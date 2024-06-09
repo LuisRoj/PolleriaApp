@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,19 +28,17 @@ public class Pedido {
     @Column(name = "total")
     private double total;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    @JsonManagedReference // Anotación para el lado padre
-    private List<PedidoDetalle> detalles;
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PedidoDetalle> detalles = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "Pedido{" +
-                "idpedido=" + idpedido +
-                ", idusuario=" + idusuario +
-                ", fechaPedido=" + fechaPedido +
-                ", estadoPedido=" + estadoPedido +
-                ", total=" + total +
-                '}';
+    public void agregarDetalle(PedidoDetalle detalle) {
+        detalles.add(detalle);
+        detalle.setPedido(this);
+    }
+
+    public void quitarDetalle(PedidoDetalle detalle) {
+        detalles.remove(detalle);
+        detalle.setPedido(null);
     }
 
 }

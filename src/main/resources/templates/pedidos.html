@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Pedidos</title>
+</head>
+<body>
+<h1>Listado de Pedidos</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID Pedido</th>
+        <th>ID Usuario</th>
+        <th>Fecha Pedido</th>
+        <th>Estado</th>
+        <th>Total</th>
+        <th>Acciones</th> <!-- Añadimos una columna para las acciones -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pedido : ${pedidos}">
+        <td th:text="${pedido.idpedido}"></td>
+        <td th:text="${pedido.idusuario}"></td>
+        <td th:text="${pedido.fechaPedido}"></td>
+        <td th:text="${pedido.estadoPedido}"></td>
+        <td th:text="${pedido.total}"></td>
+        <td>
+            <!-- Botón para editar detalles -->
+            <a th:href="@{/pedidos/{id}/detalles(id=${pedido.idpedido})}">Editar Detalles</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
