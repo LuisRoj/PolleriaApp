@@ -29,16 +29,6 @@ public class Pedido {
     private double total;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<PedidoDetalle> detalles = new ArrayList<>();
-
-    public void agregarDetalle(PedidoDetalle detalle) {
-        detalles.add(detalle);
-        detalle.setPedido(this);
-    }
-
-    public void quitarDetalle(PedidoDetalle detalle) {
-        detalles.remove(detalle);
-        detalle.setPedido(null);
-    }
-
 }

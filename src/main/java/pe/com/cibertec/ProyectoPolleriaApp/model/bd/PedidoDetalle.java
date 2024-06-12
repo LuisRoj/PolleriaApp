@@ -16,7 +16,7 @@ public class PedidoDetalle {
 
     @ManyToOne
     @JoinColumn(name = "idpedido", nullable = false)
-    @JsonBackReference // Anotación para el lado hijo
+    @JsonBackReference
     private Pedido pedido;
 
     @Column(name = "idproducto")
@@ -30,5 +30,4 @@ public class PedidoDetalle {
 
     @Column(name = "subtotal")
     private double subtotal;
-
 }

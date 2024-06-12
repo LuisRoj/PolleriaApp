@@ -1,35 +1,83 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Pedidos</title>
+    <style>
+        /* Estilos opcionales para mejorar la apariencia */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-<h1>Listado de Pedidos</h1>
-<table>
-    <thead>
-    <tr>
-        <th>ID Pedido</th>
-        <th>ID Usuario</th>
-        <th>Fecha Pedido</th>
-        <th>Estado</th>
-        <th>Total</th>
-        <th>Acciones</th> <!-- Añadimos una columna para las acciones -->
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="pedido : ${pedidos}">
-        <td th:text="${pedido.idpedido}"></td>
-        <td th:text="${pedido.idusuario}"></td>
-        <td th:text="${pedido.fechaPedido}"></td>
-        <td th:text="${pedido.estadoPedido}"></td>
-        <td th:text="${pedido.total}"></td>
-        <td>
-            <!-- Botón para editar detalles -->
-            <a th:href="@{/pedidos/{id}/detalles(id=${pedido.idpedido})}">Editar Detalles</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <h1>Listado de Pedidos</h1>
+    <ul id="lista-pedidos"></ul>
+</div>
+
+<script>
+    function listarPedidos() {
+        fetch('http://localhost:8055/api/pedidos')
+            .then(response => response.json())
+            .then(data => mostrarPedidos(data))
+            .catch(error => console.error('Error al obtener los pedidos:', error));
+    }
+
+    function mostrarPedidos(pedidos) {
+    const listaPedidos = document.getElementById('lista-pedidos');
+    listaPedidos.innerHTML = ''; // Limpiar la lista antes de agregar nuevos elementos
+
+    pedidos.forEach(pedido => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <strong>ID:</strong> ${pedido.idpedido}<br>
+            <strong>Usuario:</strong> ${pedido.idusuario}<br>
+            <strong>Fecha:</strong> ${pedido.fechaPedido}<br>
+            <strong>Estado:</strong> ${pedido.estadoPedido}<br>
+            <strong>Total:</strong> ${pedido.total}<br>
+            <strong>Detalles:</strong>
+            <ul>
+                ${pedido.detalles.map(detalle => `
+                    <li>
+                        ID: ${detalle.idpedidoDetalle},
+                        Producto: ${detalle.idproducto},
+                        Cantidad: ${detalle.cantidad},
+                        Precio: ${detalle.precio},
+                        Subtotal: ${detalle.subtotal}
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+        listaPedidos.appendChild(li);
+    });
+}
+
+    window.onload = function() {
+        listarPedidos();
+    };
+</script>
 </body>
 </html>
