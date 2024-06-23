@@ -2,12 +2,11 @@ package pe.com.cibertec.ProyectoPolleriaApp.model.bd;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Data
 @Entity
+@Data
 @Table(name = "pedido_detalle")
 public class PedidoDetalle {
     @Id

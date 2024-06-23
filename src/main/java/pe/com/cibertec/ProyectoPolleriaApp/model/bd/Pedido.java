@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Entity
+@Data
 @Table(name = "pedidos")
 public class Pedido {
     @Id
